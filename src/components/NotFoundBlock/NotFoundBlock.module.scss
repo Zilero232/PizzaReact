@@ -1,0 +1,12 @@
+.root {
+  text-align: center;
+  display: flex;
+  padding: 100px 0px;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  span {
+    font-size: 22px;
+    margin-top: 10px;
+  }
+}

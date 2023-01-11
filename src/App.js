@@ -1,24 +1,25 @@
-import Header from "./components/Header";
-import Categories from "./components/Categories";
-import PizzaMain from "./components/Pizza/PizzaMain";
-import Sort from "./components/Sort";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import "./assets/scss/app.scss";
+import Header from "./components/Header";
+
+import Home from "./pages/Home";
+import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
 
 function App() {
+  const [valueInput, setValueInput] = useState('');
+
   return (
     <>
-      <Header />
       <div className="wrapper">
+        <Header valueInput={valueInput} setValueInput={setValueInput} />
         <div className="content">
-          <div className="container">
-            <div className="content__top">
-              <Categories />
-              <Sort />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <PizzaMain />
-          </div>
+          <Routes>
+            <Route path="/" element={<Home valueInput={valueInput} />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </>
