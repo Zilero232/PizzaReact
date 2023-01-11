@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Categories from "../components/Categories";
 import PizzaMain from "../components/Pizza/PizzaMain";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination/Pagination";
 
-const Home = ({ valueInput }) => {
+import { SearchContext } from "../App";
+
+const Home = () => {
+  const { valueInput } = useContext(SearchContext);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [idCategory, setIdCategory] = useState(0);
   const [filter, setFilter] = useState(true);

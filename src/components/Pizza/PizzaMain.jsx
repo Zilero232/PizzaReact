@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import PizzaItem from "./PizzaBlock";
 import Skeleton from "./Skeleton";
 
-function PizzaMain({ sort, category, filter, valueInput, currentPage }) {
+import { SearchContext } from "../../App";
+
+function PizzaMain({ sort, category, filter, currentPage }) {
+  const { valueInput } = useContext(SearchContext);
+
   const [isLoading, setLoading] = useState(true);
   const [pizzas, setPizzas] = useState([]);
 
@@ -16,7 +20,9 @@ function PizzaMain({ sort, category, filter, valueInput, currentPage }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://63bc15c8cf99234bfa6e7c6a.mockapi.io/items?page=${currentPage}&limit=${4}&${fetchCategory}&${fetchSort}&order=${fetchFilter}`)
+    fetch(
+      `https://63bc15c8cf99234bfa6e7c6a.mockapi.io/items?page=${currentPage}&limit=${4}&${fetchCategory}&${fetchSort}&order=${fetchFilter}`
+    )
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
