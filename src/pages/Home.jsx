@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 
 import Categories from "../components/Categories";
 import PizzaMain from "../components/Pizza/PizzaMain";
@@ -9,7 +9,6 @@ import { SearchContext } from "../App";
 
 const Home = () => {
   const { valueInput } = useContext(SearchContext);
-  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <>
@@ -19,8 +18,8 @@ const Home = () => {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <PizzaMain currentPage={currentPage} valueInput={valueInput} />
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <PizzaMain valueInput={valueInput} />
+        <Pagination />
       </div>
     </>
   );
