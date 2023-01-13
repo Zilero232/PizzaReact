@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
 
 import PizzaItem from "./PizzaBlock";
 import Skeleton from "./Skeleton";
 
 import { SearchContext } from "../../App";
 
-function PizzaMain({ sort, category, filter, currentPage }) {
+function PizzaMain({ currentPage }) {
+  const sort = useSelector((state) => state.filter.sort.sortProperty);
+  const category = useSelector((state) => state.filter.categoryId);
+  const filter = useSelector((state) => state.filter.filter);
+
   const { valueInput } = useContext(SearchContext);
 
   const [isLoading, setLoading] = useState(true);
