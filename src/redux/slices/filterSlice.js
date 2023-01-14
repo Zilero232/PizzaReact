@@ -8,6 +8,7 @@ const defaultValue = {
     sortProperty: "rating",
   },
   filter: false,
+  inputValue: "",
 };
 
 const filterSlice = createSlice({
@@ -26,8 +27,17 @@ const filterSlice = createSlice({
     setPageCount(state, action) {
       state.pageCount = action.payload;
     },
+    setInputValue(state, action) {
+      state.inputValue = action.payload;
+    },
+    setFilters(state, action) {
+      state.pageCount = Number(action.payload.page);
+      state.categoryId = Number(action.payload.category);
+      state.sort = action.payload.sortBy;
+      state.filter = action.payload.order;
+    },
   },
 });
 
-export const { setCategoryId, setFilter, setSort, setPageCount } = filterSlice.actions;
+export const { setCategoryId, setFilter, setSort, setPageCount, setInputValue, setFilters } = filterSlice.actions;
 export default filterSlice.reducer;
