@@ -8,8 +8,15 @@ export const fetchPizzas = createAsyncThunk("pizza/fetchPizzasStatus", async (pa
   return data;
 });
 
+export const fetchPizza = createAsyncThunk("pizza/fetchPizzaStatus", async (params) => {
+  const { id } = params;
+  const { data } = await axios.get(`https://63bc15c8cf99234bfa6e7c6a.mockapi.io/items/${id}`);
+  return data;
+});
+
 const defaultValue = {
   items: [],
+  pizza: {},
   status: "loading",
 };
 
@@ -34,8 +41,21 @@ const pizzaSlice = createSlice({
       state.status = "error";
       state.items = [];
     },
+
+    [fetchPizzas.pending]: (state) => {
+      state.pizza = {};
+    },
+    [fetchPizza.fulfilled]: (state, action) => {
+      state.pizza = action.payload;
+    },
+    [fetchPizza.rejected]: (state) => {
+      alert("Ошибка при получении пиццы!");
+      state.pizza = {};
+      window.location.href = "/";
+    },
   },
 });
 
+export const selectPizza = (state) => state.pizza;
 export const { setPizzas } = pizzaSlice.actions;
 export default pizzaSlice.reducer;

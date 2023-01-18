@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
-import { setFilters } from "../../redux/slices/filterSlice";
-import { setPizzas, fetchPizzas } from "../../redux/slices/pizzasSlice";
+import { setFilters, selectFilter } from "../../redux/slices/filterSlice";
+import { fetchPizzas, selectPizza } from "../../redux/slices/pizzasSlice";
 
 import PizzaItem from "./PizzaBlock";
 import Skeleton from "./Skeleton";
@@ -13,8 +13,10 @@ import { SortNames } from "../Sort";
 const PizzaMain = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { sort, categoryId, filter, pageCount, inputValue } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
+
+  const { sort, categoryId, filter, pageCount, inputValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizza);
+  
   const isSearch = useRef(false);
   const render = useRef(false);
 
