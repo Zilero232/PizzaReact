@@ -1,13 +1,23 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import { FC } from "react";
+import { addItem, minusItem, removeItem } from "../../redux/cart/slice";
+import { CartItem as CartItemsType } from "../../redux/cart/types";
+import { useAppDispatch } from "../../redux/store";
 
-import { removeItem, minusItem, addItem } from "../../redux/slices/cartSlice";
+type CartItemProps = {
+  id: string;
+  title: string;
+  price: number;
+  count: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+};
 
-const CartItem = ({ id, title, price, count, imageUrl, type, size }) => {
-  const dispatch = useDispatch();
+const CartItem: FC<CartItemProps> = ({ id, title, price, count, imageUrl, type, size }) => {
+  const dispatch = useAppDispatch();
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as CartItemsType));
   };
 
   const onClickMinus = () => {
@@ -25,10 +35,16 @@ const CartItem = ({ id, title, price, count, imageUrl, type, size }) => {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, {size} см.</p>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className="cart__item-count">
-        <div onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">
+        <button
+          onClick={onClickMinus}
+          disabled={count < 2}
+          className="button button--outline button--circle cart__item-count-minus"
+        >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
@@ -39,7 +55,7 @@ const CartItem = ({ id, title, price, count, imageUrl, type, size }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
         <div onClick={onClickPlus} className="button button--outline button--circle cart__item-count-plus">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

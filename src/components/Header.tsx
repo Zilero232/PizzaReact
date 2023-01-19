@@ -1,14 +1,23 @@
-import React from "react";
+import { FC, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { selectCart } from "../redux/slices/cartSlice";
+import { selectCart } from "../redux/cart/selectors";
 
 import logo from "../assets/images/pizza-logo.svg";
 import Search from "../components/Search";
 
-function Header() {
-  const { totalPrice, totalCount } = useSelector(selectCart);
+const Header: FC = () => {
+  const { totalPrice, totalCount, items } = useSelector(selectCart);
+  const isMount = useRef(false);
+
+  useEffect(() => {
+    if (isMount.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    isMount.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -56,6 +65,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;

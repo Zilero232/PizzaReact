@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectCartItemById } from "../../redux/cart/selectors";
+import { addItem } from "../../redux/cart/slice";
+import { CartItem } from "../../redux/cart/types";
 
-import { addItem, selectPizzaBlock } from "../../redux/slices/cartSlice";
 
-function PizzaBlock({ id, imageUrl, title, types, price, sizes }) {
+type PizzaBlockProps = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  price: number;
+  sizes: number[];
+};
+
+const PizzaBlock: FC<PizzaBlockProps> = ({ id, imageUrl, title, types, price, sizes }) => {
   const dispatch = useDispatch();
-  const cartItem = useSelector(selectPizzaBlock);
+  const cartItem = useSelector(selectCartItemById(id));
   const [isActiveSize, setActiveSize] = useState(0);
   const [isActiveType, setActiveType] = useState(0);
 
   const typesNames = ["тонкое", "традиционное"];
 
+  const addedCount = cartItem ? cartItem.count : 0;
+
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       type: typesNames[isActiveType],
       size: sizes[isActiveSize],
+      count: 0,
     };
 
     dispatch(addItem(item));
@@ -58,12 +72,12 @@ function PizzaBlock({ id, imageUrl, title, types, price, sizes }) {
               />
             </svg>
             <span>Добавить</span>
-            {cartItem && cartItem.count > 0 && <i>{cartItem.count}</i>}
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;
